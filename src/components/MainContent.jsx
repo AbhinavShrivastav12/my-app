@@ -4,7 +4,7 @@ import { FaSearch, FaPlus, FaPrint, FaCogs } from "react-icons/fa";
 
 const MainContent = () => {
   const [showForm, setShowForm] = useState(false);
-  const [refreshTable, setRefreshTable] = useState(false); // to trigger table refresh
+  const [refreshTable, setRefreshTable] = useState(false);
   const API_URL = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e) => {
@@ -22,7 +22,7 @@ const MainContent = () => {
 
       alert("Product added successfully!");
       setShowForm(false);
-      setRefreshTable((prev) => !prev); // refresh the table
+      setRefreshTable((prev) => !prev);
     } catch (err) {
       console.error(err);
       alert(err.message);
@@ -31,26 +31,34 @@ const MainContent = () => {
 
   return (
     <main className="main-content">
-      <div className="top-controls">
-        <div className="search-group">
-          <input type="text" placeholder="Search Article No..." />
-          <FaSearch className="icon" />
-        </div>
-        <div className="search-group">
-          <input type="text" placeholder="Search Product..." />
-          <FaSearch className="icon" />
-        </div>
+     <div className="top-controls">
+  <div className="search-wrapper">
+    <div className="search-group">
+      <input type="text" placeholder="Search Article No..." />
+      <FaSearch className="icon" />
+    </div>
+    <div className="search-group">
+      <input type="text" placeholder="Search Product..." />
+      <FaSearch className="icon" />
+    </div>
+  </div>
 
-        <button className="btn new-product" onClick={() => setShowForm(true)}>
-          <FaPlus /> New Product
-        </button>
-        <button className="btn">
-          <FaPrint /> Print List
-        </button>
-        <button className="btn">
-          <FaCogs /> Advanced mode
-        </button>
-      </div>
+  <div className="icon-buttons">
+    <button className="btn new-product" onClick={() => setShowForm(true)}>
+      <FaPlus />
+      <span>New Product</span>
+    </button>
+    <button className="btn">
+      <FaPrint />
+      <span>Print List</span>
+    </button>
+    <button className="btn">
+      <FaCogs />
+      <span>Advanced mode</span>
+    </button>
+  </div>
+</div>
+
 
       {/* Modal Form */}
       {showForm && (
@@ -72,7 +80,7 @@ const MainContent = () => {
         </div>
       )}
 
-      {/* Existing Table component */}
+      {/* Table */}
       <Table refresh={refreshTable} />
     </main>
   );

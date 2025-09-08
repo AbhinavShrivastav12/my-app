@@ -20,6 +20,7 @@ body, html, #root {
   align-items: center;
   padding: 12px 24px;
   color: white;
+  position: relative;
 }
 
 .nav-bar .row {
@@ -52,6 +53,109 @@ body, html, #root {
   width: 28px;
   height: 20px;
   object-fit: cover;
+}
+
+/* User info layout */
+.user-info {
+  display: flex;          /* row layout */
+  align-items: center;
+  gap: 10px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column; /* name on top, company below */
+  gap: 2px;
+}
+
+.user-details h5 {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.user-details p {
+  font-size: 14px;
+  color: #f0f0f0;
+  margin: 0;
+}
+
+/* Hamburger & responsive NavBar */
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hamburger {
+  display: none; /* hidden by default */
+  cursor: pointer;
+}
+
+.hamburger-icon {
+  width: 28px;
+  height: 28px;
+  color: white;
+}
+
+/* Mobile menu */
+.mobile-menu {
+  position: absolute;
+  top: 64px; /* height of navbar */
+  left: 0;
+  width: 220px;
+  background-color: #3f3ff9;
+  color: white;
+  border-radius: 0 0 8px 8px;
+  padding: 12px 0;
+  z-index: 1000;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mobile-menu ul li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.mobile-menu ul li:hover {
+  background-color: #2f2fd9;
+}
+
+.mobile-menu ul li.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mobile-menu ul li .green-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: green;
+  margin-right: 5px;
+}
+
+/* Responsive behavior for screens <= 1024px */
+@media screen and (max-width: 1024px) {
+  .sidebar {
+    display: none;
+  }
+
+  .user-info {
+    display: none; /* hide user info on mobile */
+  }
+
+  .hamburger {
+    display: block; /* show hamburger */
+  }
 }
 
 /* App layout */
@@ -170,7 +274,6 @@ body, html, #root {
   background-color: #f4f4f4;
   cursor: pointer;
   font-weight: 500;
-  transition: background 0.2s, transform 0.1s;
 }
 
 .btn:hover {
@@ -199,7 +302,7 @@ body, html, #root {
 
 .product-table td {
   background-color: #fff;
-  padding: 12px;
+  padding: 2px;
   border: 1px solid #ddd;
   border-radius: 8px;
   vertical-align: middle;
@@ -296,3 +399,243 @@ body, html, #root {
 .modal-buttons .btn {
   flex: 1;
 }
+/* Main container */
+.main-content {
+  padding: 20px;
+  background-color: #f9faff;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Top controls */
+.top-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+/* Search wrapper */
+.search-wrapper {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-group {
+  position: relative;
+}
+
+.search-group input {
+  padding: 8px 35px 8px 10px;
+  width: 200px;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.search-group input:focus {
+  border-color: #4caf50;
+}
+
+.search-group .icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+/* Buttons on top */
+.icon-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 15px;
+  border-radius: 25px;
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.btn:hover {
+  background-color: #e0e0e0;
+}
+
+.btn.new-product {
+  background-color: #e6ffed;
+  color: #28a745;
+}
+
+.btn.new-product:hover {
+  background-color: #c7f0d4;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-form {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-form input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+ /* Search wrapper */
+  .search-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+/* Responsive adjustments */
+
+
+/* Hide unnecessary columns on mobile */
+
+@media screen and (max-width: 1024px) {
+  /* Hide all columns by default */
+  .product-table th,
+  .product-table td {
+    display: none;
+  }
+
+  /* Show only Product/Service, Price, and Ellipsis columns */
+  .product-table th:nth-child(3),
+  .product-table th:nth-child(5),
+  .product-table th:last-child,
+  .product-table td:nth-child(3),
+  .product-table td:nth-child(5),
+  .product-table td:last-child {
+    display: table-cell;
+  }
+
+  /* Center only the Price column */
+  .product-table th:nth-child(5),
+  .product-table td:nth-child(5) {
+    text-align: center;
+  }
+
+  /* Hide row arrow */
+  .product-table td.arrow-cell {
+    display: none;
+  }
+
+  /* Remove border and background from ellipsis column */
+  .product-table td.actions {
+    border: none;
+    background: none;
+    text-align: center; /* keep 3 dots centered */
+  }
+
+  /* Hide green down arrow in Product/Service header */
+  .product-table th:nth-child(3) svg {
+    display: none;
+  }
+
+
+  /* Top controls wrapper */
+  .top-controls {
+    display: flex;
+    flex-direction: column;  /* stack search and icons */
+    gap: 12px;
+    padding: 12px 16px;      /* padding from sides */
+  }
+
+  /* Search wrapper */
+  .search-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  /* Search group */
+  .search-group {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 25px;          /* round edges */
+    background-color: #fff;        /* white background */
+    border: 1px solid #33d1ff;    /* light blue border */
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .search-group input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 6px 8px;
+    font-size: 14px;
+  }
+
+  .search-group .icon {
+    color: #33d1ff;    /* search icon color */
+    font-size: 18px;
+  }
+
+  /* Icon buttons row */
+  .icon-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .icon-buttons .btn {
+    background-color: #fff;   /* white background */
+    padding: 12px;
+    border-radius: 50%;       /* circular buttons */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15); /* subtle shadow */
+    gap: 0;
+  }
+
+  .icon-buttons .btn span {
+    display: none;  /* hide text */
+  }
+
+  .icon-buttons .btn svg {
+    width: 20px;
+    height: 20px;
+    color: #33d1ff;  /* icon color */
+  }
+}
+
+

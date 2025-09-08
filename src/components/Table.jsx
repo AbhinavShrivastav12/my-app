@@ -1,24 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaEllipsisH } from "react-icons/fa";
 
 const Table = () => {
-  const rows = [
-    {
-      article: "1234567890",
-      product: "This is a test product with fifty characters this!",
-      inPrice: "900500",
-      price: "1500800",
-      unit: "kilometers/hour",
-      stock: "2500600",
-      description: "This is the description with fifty characters this",
-    },
-  ];
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const API_URL = import.meta.env.VITE_API_URL; // backend URL
+
+  useEffect(() => {
+    const fetchInvoices = async () => {
+      try {
+        const res = await fetch(`${API_URL}/invoices`);
+        if (!res.ok) throw new Error("Failed to fetch invoices");
+        const data = await res.json();
+        setRows(data); // backend already returns camelCase fields
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError(err);
+        setLoading(false);
+      }
+    };
+
+    fetchInvoices();
+  }, [API_URL]);
+
+  if (loading) return <p>Loading invoices...</p>;
+  if (error) return <p>Error loading invoices: {error.message}</p>;
 
   return (
     <table className="product-table">
       <thead>
         <tr>
-          <th></th> {/* For row arrow */}
+          <th></th> {/* Row arrow */}
           <th style={{ whiteSpace: "nowrap" }}>
             Article No.
             <svg
@@ -64,8 +79,8 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {rows.map((row, index) => (
-          <tr key={index}>
+        {rows.map((row) => (
+          <tr key={row.id}>
             <td className="arrow-cell">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -82,12 +97,12 @@ const Table = () => {
                 <polyline points="25 1 30 6 25 11"></polyline>
               </svg>
             </td>
-            <td>{row.article}</td>
-            <td>{row.product}</td>
+            <td>{row.articleNo}</td>
+            <td>{row.productOrService}</td>
             <td>{row.inPrice}</td>
             <td>{row.price}</td>
             <td>{row.unit}</td>
-            <td>{row.stock}</td>
+            <td>{row.inStock}</td>
             <td>{row.description}</td>
             <td className="actions">
               <FaEllipsisH className="action-icon" />

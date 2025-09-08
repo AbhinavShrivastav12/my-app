@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   FaFileInvoice,
   FaUsers,
@@ -14,9 +14,7 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 
-const SideBar = () => {
-  const [activeItem, setActiveItem] = useState("Price List");
-
+const SideBar = ({ activeItem, setActiveItem }) => {
   const menuItems = [
     { name: "Invoices", icon: <FaFileInvoice /> },
     { name: "Customers", icon: <FaUsers /> }, 

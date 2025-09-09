@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FaEllipsisH } from "react-icons/fa";
+import { FaEllipsisH, FaTimes } from "react-icons/fa";
 
 const Table = ({ refresh }) => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [activeMenu, setActiveMenu] = useState(null); // open 3-dot menu row
+  const [activeMenu, setActiveMenu] = useState(null); // 3-dot menu
   const [editRow, setEditRow] = useState(null); // row being edited
 
   const API_URL = import.meta.env.VITE_API_URL;
@@ -39,30 +39,22 @@ const Table = ({ refresh }) => {
     }
   };
 
-  const handleEdit = (row) => {
-    setEditRow(row);
-    setActiveMenu(null);
-  };
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    const formData = Object.fromEntries(new FormData(e.target));
-
+  // Auto-save on input change
+  const handleAutoSave = async (field, value) => {
     try {
-      const res = await fetch(`${API_URL}/invoices/${editRow.id}`, {
+      const updatedRow = { ...editRow, [field]: value };
+      await fetch(`${API_URL}/invoices/${editRow.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(updatedRow),
       });
-
-      if (!res.ok) throw new Error("Failed to update product");
-
-      alert("Product updated successfully!");
-      setEditRow(null);
-      fetchInvoices(); // refresh table
+      // Update table instantly
+      setRows((prevRows) =>
+        prevRows.map((r) => (r.id === editRow.id ? updatedRow : r))
+      );
+      setEditRow(updatedRow);
     } catch (err) {
-      console.error(err);
-      alert(err.message);
+      console.error("Auto-save failed:", err);
     }
   };
 
@@ -154,7 +146,7 @@ const Table = ({ refresh }) => {
                 />
                 {activeMenu === row.id && (
                   <div className="row-popup">
-                    <button className="popup-btn" onClick={() => handleEdit(row)}>
+                    <button className="popup-btn" onClick={() => setEditRow(row)}>
                       Edit
                     </button>
                     <button
@@ -171,68 +163,32 @@ const Table = ({ refresh }) => {
         </tbody>
       </table>
 
-      {/* Edit Modal Form */}
-      {editRow && (
-        <div className="modal">
-          <form className="modal-form" onSubmit={handleUpdate}>
-            <h3>Edit Product</h3>
-            <input
-              name="articleNo"
-              defaultValue={editRow.articleNo}
-              placeholder="Article No."
-              required
-            />
-            <input
-              name="productOrService"
-              defaultValue={editRow.productOrService}
-              placeholder="Product/Service"
-              required
-            />
-            <input
-              name="inPrice"
-              defaultValue={editRow.inPrice}
-              placeholder="In Price"
-              required
-            />
-            <input
-              name="price"
-              defaultValue={editRow.price}
-              placeholder="Price"
-              required
-            />
-            <input
-              name="unit"
-              defaultValue={editRow.unit}
-              placeholder="Unit"
-              required
-            />
-            <input
-              name="inStock"
-              defaultValue={editRow.inStock}
-              placeholder="In Stock"
-              required
-            />
-            <input
-              name="description"
-              defaultValue={editRow.description}
-              placeholder="Description"
-              required
-            />
-            <div className="modal-buttons">
-              <button type="submit" className="btn">
-                Save Changes
-              </button>
-              <button
-                type="button"
-                className="btn"
-                onClick={() => setEditRow(null)}
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+      {/* Edit Modal */}
+    {editRow && (
+  <div className="modal">
+    <form className="modal-form">
+      <button
+        className="modal-close"
+        onClick={() => setEditRow(null)}
+        type="button"
+      >
+        <FaTimes size={20} />
+      </button>
+      <h3>Edit Product</h3>
+      {["articleNo","productOrService","inPrice","price","unit","inStock","description"].map(field => (
+        <input
+          key={field}
+          name={field}
+          value={editRow[field]}
+          onChange={(e) => handleAutoSave(field, e.target.value)}
+          placeholder={field.replace(/([A-Z])/g, " $1")}
+          required
+        />
+      ))}
+    </form>
+  </div>
+)}
+
     </>
   );
 };

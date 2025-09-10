@@ -45,16 +45,16 @@ const MainContent = () => {
 
   <div className="icon-buttons">
     <button className="btn new-product" onClick={() => setShowForm(true)}>
-      <FaPlus />
       <span>New Product</span>
+       <FaPlus  style={{color: "#66cc66"}}/>
     </button>
     <button className="btn">
-      <FaPrint />
       <span>Print List</span>
+       <FaPrint />
     </button>
     <button className="btn">
-      <FaCogs />
       <span>Advanced mode</span>
+       <FaCogs />
     </button>
   </div>
 </div>

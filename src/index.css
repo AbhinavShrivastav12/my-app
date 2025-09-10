@@ -5,6 +5,11 @@
   padding: 0;
 }
 
+h1,h2,h3,h4,h5,h6,p, th{
+  margin: 0;
+  padding: 0;
+}
+
 body, html, #root {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   height: 100%;
@@ -130,8 +135,9 @@ body, html, #root {
   background-color: #2f2fd9;
 }
 
-.mobile-menu ul li.disabled {
+ ul li.disabled {
   opacity: 0.5;
+  color: #333;
   cursor: not-allowed;
 }
 
@@ -157,6 +163,91 @@ body, html, #root {
     display: block; /* show hamburger */
   }
 }
+/* Hide unnecessary columns on mobile */
+/* Special rules only for exactly 1024px */
+@media screen and (width: 1024px) {
+  /* Show columns up to Unit + row arrow */
+  .product-table th,
+  .product-table td {
+    display: none;
+  }
+
+  .product-table th:first-child,      /* Arrow cell */
+  .product-table td.arrow-cell,
+  .product-table th:nth-child(2),     /* Article No. */
+  .product-table td:nth-child(2),
+  .product-table th:nth-child(3),     /* Product/Service */
+  .product-table td:nth-child(3),
+  .product-table th:nth-child(4),     /* In Price */
+  .product-table td:nth-child(4),
+  .product-table th:nth-child(5),     /* Price */
+  .product-table td:nth-child(5),
+  .product-table th:nth-child(6),     /* Unit */
+  .product-table td:nth-child(6),
+  .product-table th:last-child,       /* 3-dot actions */
+  .product-table td:last-child {
+    display: table-cell;
+  }
+
+  /* Center Price column */
+  .product-table th:nth-child(5),
+  .product-table td:nth-child(5) {
+    text-align: center;
+  }
+
+  /* Keep search + icon buttons same as desktop (inline) */
+  .top-controls {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0;
+  }
+
+  .search-wrapper {
+    flex-direction: row;
+    width: auto;
+    gap: 10px;
+  }
+
+  .search-group {
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+  }
+ .icon-buttons .btn span {
+    display: none;
+  }
+
+  .icon-buttons .btn {
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 50%;        /* circular buttons */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    gap: 0;
+    width: 44px;               /* fixed size */
+    height: 44px;
+  }
+
+  .icon-buttons .btn svg {
+    color: #33d1ff;            /* keep same blue icon color */
+    width: 20px;
+    height: 20px;
+  }
+
+  .search-wrapper{
+      margin-left: 6%;
+  }
+  .icon-buttons{
+    gap: 100px !important;
+  }
+}
+
+
 
 /* App layout */
 .app-layout {
@@ -189,7 +280,7 @@ body, html, #root {
 .sidebar .menu-title::after {
   content: '';
   display: block;
-  width: 50px;
+  max-width: 150px;
   height: 3px;
   background-color: #3f3ff9;
   margin: 6px auto 0 auto;
@@ -208,7 +299,6 @@ body, html, #root {
   margin-bottom: 6px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
 .sidebar ul li:hover {
@@ -254,14 +344,12 @@ body, html, #root {
 .search-group input {
   border: none;
   outline: none;
+  opacity: 50%;
   padding: 6px 8px;
   width: 160px;
 }
 
-.search-group .icon {
-  color: #3f3ff9;
-  cursor: pointer;
-}
+
 
 /* Buttons */
 .btn {
@@ -283,7 +371,6 @@ body, html, #root {
 
 .new-product {
   background-color: #e8f5ff;
-  color: #3f3ff9;
 }
 
 /* Product table */
@@ -326,12 +413,8 @@ body, html, #root {
 
 .action-icon {
   cursor: pointer;
-  color: #555;
+  color:#3f3ff9;
   font-size: 16px;
-}
-
-.action-icon:hover {
-  color: #3f3ff9;
 }
 
 /* Table header arrows */
@@ -421,6 +504,7 @@ body, html, #root {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+
 }
 
 .search-group {
@@ -443,7 +527,6 @@ body, html, #root {
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  color: #888;
 }
 
 /* Buttons on top */
@@ -468,15 +551,6 @@ body, html, #root {
 
 .btn:hover {
   background-color: #e0e0e0;
-}
-
-.btn.new-product {
-  background-color: #e6ffed;
-  color: #28a745;
-}
-
-.btn.new-product:hover {
-  background-color: #c7f0d4;
 }
 
 /* Modal */
@@ -522,11 +596,26 @@ body, html, #root {
   }
 
 /* Responsive adjustments */
+ .search-group .icon {
+    color: #33d1ff;    /* search icon color */
+    font-size: 18px;
+  }
 
+   .icon-buttons .btn svg {
+    width: 20px;
+    height: 20px;
+    color: #33d1ff;  /* icon color */
+  }
+
+   .product-table td.actions {
+    border: none;
+    background: none;
+    text-align: center; /* keep 3 dots centered */
+  }
 
 /* Hide unnecessary columns on mobile */
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   /* Hide all columns by default */
   .product-table th,
   .product-table td {
@@ -552,13 +641,6 @@ body, html, #root {
   /* Hide row arrow */
   .product-table td.arrow-cell {
     display: none;
-  }
-
-  /* Remove border and background from ellipsis column */
-  .product-table td.actions {
-    border: none;
-    background: none;
-    text-align: center; /* keep 3 dots centered */
   }
 
   /* Hide green down arrow in Product/Service header */
@@ -603,11 +685,6 @@ body, html, #root {
     font-size: 14px;
   }
 
-  .search-group .icon {
-    color: #33d1ff;    /* search icon color */
-    font-size: 18px;
-  }
-
   /* Icon buttons row */
   .icon-buttons {
     display: flex;
@@ -629,12 +706,6 @@ body, html, #root {
 
   .icon-buttons .btn span {
     display: none;  /* hide text */
-  }
-
-  .icon-buttons .btn svg {
-    width: 20px;
-    height: 20px;
-    color: #33d1ff;  /* icon color */
   }
 }
 

@@ -133,6 +133,7 @@ const Table = ({ refresh }) => {
                 onClick={() =>
                   setEditingCell({ rowId: row.id, field })
                 }
+                style={{fontSize : "small"}}
               >
                 {editingCell.rowId === row.id && editingCell.field === field ? (
                   <input

@@ -165,7 +165,7 @@ body, html, #root {
 }
 /* Hide unnecessary columns on mobile */
 /* Special rules only for exactly 1024px */
-@media screen and (width: 1024px) {
+@media screen and (min-width: 768px) and (max-width: 1024px) {
   /* Show columns up to Unit + row arrow */
   .product-table th,
   .product-table td {
@@ -615,7 +615,7 @@ body, html, #root {
 
 /* Hide unnecessary columns on mobile */
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 450px) {
   /* Hide all columns by default */
   .product-table th,
   .product-table td {
